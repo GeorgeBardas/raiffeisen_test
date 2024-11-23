@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "RaiffeisenTest"
 include(":app")
- 
+include("core:designsystem")
+include("feature:user")
+include(":feature:home")

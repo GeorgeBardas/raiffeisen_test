@@ -1,0 +1,39 @@
+complexity:
+    ComplexMethod:
+        ignoreSingleWhenExpression: true
+    TooManyFunctions:
+        ignoreOverridden: true
+    LongParameterList:
+        ignoreDefaultParameters: true
+
+style:
+    SerialVersionUIDInSerializableClass:
+        active: false
+    NewLineAtEndOfFile:
+        active: false
+    MagicNumber:
+        ignorePropertyDeclaration: true
+        ignoreCompanionObjectPropertyDeclaration: true
+        ignoreAnnotated: ['Preview']
+    UnusedPrivateMember:
+        ignoreAnnotated: ['Preview', 'PreviewLightDark']
+    WildcardImport:
+        active: false
+
+empty-blocks:
+    EmptyFunctionBlock:
+        ignoreOverridden: true
+
+formatting:
+    FinalNewline:
+        active: false
+    NoTrailingSpaces:
+        active: false
+    NoWildcardImports:
+        active: false
+
+naming:
+    FunctionNaming:
+        ignoreAnnotated: [ 'Composable' ]
+    TopLevelPropertyNaming:
+        constantPattern: '[A-Z][A-Za-z0-9]*'
