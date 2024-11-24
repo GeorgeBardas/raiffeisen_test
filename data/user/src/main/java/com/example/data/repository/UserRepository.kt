@@ -2,7 +2,7 @@ package com.example.data.repository
 
 import com.example.network.NetworkResult
 import com.example.network.UserClient
-import com.example.network.model.User
+import com.example.user.User
 
 interface UserRepository {
     suspend fun getUsers(): GetUsersResult

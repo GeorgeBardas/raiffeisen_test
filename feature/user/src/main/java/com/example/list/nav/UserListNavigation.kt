@@ -8,12 +8,10 @@ const val userListRoute = "userList"
 
 fun NavGraphBuilder.userList(
     onDrawerIconClick: () -> Unit,
-    userClick: (String) -> Unit,
 ) {
     composable(userListRoute) {
         UserListScreen(
             onDrawerIconClick = onDrawerIconClick,
-            userClick = userClick
         )
     }
 }

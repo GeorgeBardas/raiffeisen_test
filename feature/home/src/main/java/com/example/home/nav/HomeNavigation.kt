@@ -6,12 +6,6 @@ import com.example.home.compose.HomeScreen
 
 const val homeRoute = "home"
 
-fun NavGraphBuilder.homeScreen(
-    userClick: (String) -> Unit,
-) {
-    composable(homeRoute) {
-        HomeScreen(
-            userClick = userClick
-        ) 
-    }
+fun NavGraphBuilder.homeScreen() {
+    composable(homeRoute) { HomeScreen() }
 }

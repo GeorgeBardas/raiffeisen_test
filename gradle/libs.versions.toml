@@ -13,6 +13,8 @@ appcompat = "1.7.0"
 koinBom = "4.0.0"
 retrofit = "2.11.0"
 retrofitKotlinxSerializationJson = "1.0.0"
+coil = "3.0.3"
+material = "1.12.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -41,6 +43,9 @@ koin-compose = { module = "io.insert-koin:koin-androidx-compose" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 retrofit-kotlin-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerializationJson" }
+
+coil = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]

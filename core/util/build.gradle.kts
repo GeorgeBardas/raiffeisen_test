@@ -1,11 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    namespace = "com.example.network"
+    namespace = "com.example.util"
     compileSdk = 34
 
     defaultConfig {
@@ -34,20 +33,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":data:model:user"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.gson)
-    implementation(libs.retrofit.kotlin.serialization)
-
-    implementation(project.dependencies.platform(libs.koin.bom))
-    implementation(libs.koin.core)
-
+    implementation(libs.material)
     testImplementation(libs.junit)
-
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

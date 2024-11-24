@@ -9,7 +9,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import java.net.UnknownHostException
 
-internal interface RandomUserNetworkDataSourceApi {
+internal interface UserClientApi {
 
     @GET(value = "api/")
     suspend fun getUsers(
@@ -27,7 +27,7 @@ internal class UserClientImpl : UserClient {
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-        .create(RandomUserNetworkDataSourceApi::class.java)
+        .create(UserClientApi::class.java)
 
     override suspend fun getUsers(): NetworkResult<UserListResponse> = handleApi {
         retrofitNetwork.getUsers()

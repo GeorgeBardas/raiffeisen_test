@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.network"
+    namespace = "com.example.user"
     compileSdk = 34
 
     defaultConfig {
@@ -34,17 +34,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":data:model:user"))
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
 
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.gson)
     implementation(libs.retrofit.kotlin.serialization)
-
-    implementation(project.dependencies.platform(libs.koin.bom))
-    implementation(libs.koin.core)
 
     testImplementation(libs.junit)
 

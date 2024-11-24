@@ -17,7 +17,6 @@ import kotlinx.coroutines.launch
 internal fun HomeScreen(
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
-    userClick: (String) -> Unit,
 ) {
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -33,7 +32,6 @@ internal fun HomeScreen(
                             }
                         }
                     },
-                    userClick = userClick
                 )
             }
         }

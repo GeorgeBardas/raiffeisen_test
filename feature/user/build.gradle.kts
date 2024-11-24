@@ -40,6 +40,8 @@ android {
 
 dependencies {
     implementation(project(":core:designsystem"))
+    implementation(project(":core:util"))
+    implementation(project(":data:model:user"))
     implementation(project(":data:user"))
 
     implementation(libs.androidx.core.ktx)
@@ -51,6 +53,9 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.compose.navigation)
+
+    implementation(libs.coil)
+    implementation(libs.coil.okhttp)
 
     implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.koin.core)
