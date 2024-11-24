@@ -51,6 +51,7 @@ android {
 
 dependencies {
     implementation(project(":core:designsystem"))
+    implementation(project(":data:user"))
     implementation(project(":feature:home"))
     implementation(project(":feature:user"))
 
@@ -67,6 +68,7 @@ dependencies {
 
     implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.koin.core)
+    implementation(libs.koin.android)
 
     testImplementation(libs.junit)
 

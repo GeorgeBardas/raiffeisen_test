@@ -4,8 +4,8 @@ plugins {
 }
 
 android {
-    namespace = "com.example.userlist"
-    compileSdk = 35
+    namespace = "com.example.data"
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
@@ -30,32 +30,17 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
 }
 
 dependencies {
-    implementation(project(":core:designsystem"))
-    implementation(project(":data:user"))
+    implementation(project(":core:network"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.compose.navigation)
+    implementation(libs.material)
 
     implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.koin.core)
-    implementation(libs.koin.android)
-    implementation(libs.koin.compose)
 
     testImplementation(libs.junit)
 

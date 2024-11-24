@@ -26,12 +26,15 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.example.designsystem.components.AppBar
 import com.example.designsystem.theme.RaiffeisenTestTheme
+import com.example.list.blocks.UserListVM
 import com.example.userlist.R
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun UserListScreen(
     onDrawerIconClick: () -> Unit,
     userClick: (String) -> Unit,
+    viewModel: UserListVM = koinViewModel(),
 ) {
     Scaffold(
         topBar = {
