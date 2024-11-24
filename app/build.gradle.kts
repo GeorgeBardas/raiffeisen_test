@@ -21,14 +21,34 @@ android {
     }
 
     buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+        getByName("debug") {
+            applicationIdSuffix = ".debug"
+            isDebuggable = true
+        }
+        getByName("release") {
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
+
+    flavorDimensions += "raiffeisen"
+    productFlavors {
+        create("dev") {
+            dimension = "raiffeisen"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+
+            resValue("string", "app_name", "RaiffeisenTestDev")
+        }
+        create("prod") {
+            dimension = "raiffeisen"
+            applicationIdSuffix = ".prod"
+            versionNameSuffix = "-prod"
+
+            resValue("string", "app_name", "RaiffeisenTest")
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
