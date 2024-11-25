@@ -1,7 +1,8 @@
 package com.example.list.model
 
-data class UserData(
+internal data class UserData(
     val thumbnailUrl: String,
     val name: String,
-    val description: String,
+    val description: () -> String,
+    val timeOfBirth: String,
 )

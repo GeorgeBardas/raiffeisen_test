@@ -1,27 +1,36 @@
 package com.example.data.repository
 
-import com.example.network.NetworkResult
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.example.network.UserClient
 import com.example.user.User
+import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
-    suspend fun getUsers(): GetUsersResult
+    fun getUsers(): Flow<PagingData<User>>
 }
 
 class UserRepositoryImpl(
-    private val randomUserNetworkDataSource: UserClient
+    private val userClient: UserClient
 ) : UserRepository {
 
-    override suspend fun getUsers(): GetUsersResult = when (
-        val result = randomUserNetworkDataSource.getUsers()
-    ) {
-        is NetworkResult.Success -> GetUsersResult.Success(result.data.results)
-        is NetworkResult.Error -> GetUsersResult.Error
-        is NetworkResult.Exception -> GetUsersResult.Error
-    }
-}
+    override fun getUsers(): Flow<PagingData<User>> = Pager(
+        config = PagingConfig(
+            pageSize = PAGE_SIZE,
+            prefetchDistance = PREFETCH_DISTANCE
+        ),
+        pagingSourceFactory = {
+            UserPagingSource(
+                pageLimit = PAGE_LIMIT,
+                userClient = userClient
+            )
+        }
+    ).flow
 
-sealed interface GetUsersResult {
-    data class Success(val userList: List<User>) : GetUsersResult
-    data object Error : GetUsersResult
+    private companion object {
+        const val PAGE_SIZE = 20
+        const val PREFETCH_DISTANCE = 3
+        const val PAGE_LIMIT = 3
+    }
 }

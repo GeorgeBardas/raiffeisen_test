@@ -10,25 +10,31 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.data.repository.NoInternetException
 import com.example.designsystem.components.AppBar
 import com.example.designsystem.components.ErrorMessage
 import com.example.designsystem.components.LoadingIndicator
 import com.example.designsystem.theme.RaiffeisenTestTheme
 import com.example.list.blocks.UserListVM
-import com.example.list.blocks.model.ErrorType
 import com.example.list.blocks.model.UserListAction
 import com.example.list.blocks.model.UserListVS
 import com.example.translations.R
+import kotlinx.coroutines.flow.flowOf
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -78,16 +84,7 @@ private fun Screen(
                 .fillMaxSize()
                 .padding(contentPadding)
         ) {
-            when (viewState.errorType) {
-                ErrorType.NO_INTERNET -> ErrorMessage("No internet") {
-                    act(UserListAction.TryAgainClick)
-                }
-                ErrorType.GENERIC_ERROR -> ErrorMessage("Something went wrong") {
-                    act(UserListAction.TryAgainClick)
-                }
-                null -> Content(viewState, act)
-            }
-            if (viewState.isLoading) LoadingIndicator()
+            Content(viewState, act)
         }
     }
 }
@@ -97,24 +94,62 @@ private fun Content(
     viewState: UserListVS,
     act: (UserListAction) -> Unit
 ) {
-    LazyColumn {
-        items(viewState.userList.size) { index ->
-            UserListItem(
-                data = viewState.userList[index],
-//                userClick = { }
-            )
-            if (index < viewState.userList.lastIndex) Divider()
+    val lazyPagingItems = viewState.userListFlow.collectAsLazyPagingItems()
+    LazyColumn(
+        userScrollEnabled = lazyPagingItems.itemCount > 0
+    ) {
+        items(lazyPagingItems.itemCount) { index ->
+            lazyPagingItems[index]?.let { userData ->
+                UserListItem(
+                    data = userData,
+                    onUserClick = { act(UserListAction.UserClick(userData)) }
+                )
+                if (index < lazyPagingItems.itemCount - 1) ItemDivider()
+            }
+        }
+        when (val loadState = lazyPagingItems.loadState.refresh) {
+            LoadState.Loading -> item { Box(Modifier.fillParentMaxSize()) { LoadingIndicator() } }
+            is LoadState.Error -> item {
+                Box(Modifier.fillParentMaxSize()) {
+                    if (loadState.error is NoInternetException) {
+                        ErrorMessage("No internet") { lazyPagingItems.retry() }
+                    } else {
+                        ErrorMessage("Something went wrong") { lazyPagingItems.retry() }
+                    }
+                }
+            }
+            is LoadState.NotLoading -> {}
+        }
+        when (lazyPagingItems.loadState.append) {
+            is LoadState.Error -> item {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) { Text("Something went wrong") }
+            }
+            LoadState.Loading -> item {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.padding(16.dp),
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+            is LoadState.NotLoading -> {}
         }
     }
 }
 
 @Composable
-private fun Divider() = Box(
+private fun ItemDivider() = Box(
     modifier = Modifier
         .fillMaxWidth()
         .height(1.dp)
         .background(
-            color = MaterialTheme.colorScheme.secondary
+            color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f),
         )
 )
 
@@ -123,7 +158,7 @@ private fun Divider() = Box(
 private fun UserListScreenPreview() = RaiffeisenTestTheme {
     Screen(
         viewState = UserListVS(
-            userList = UserListScreenPreviewData.data
+            userListFlow = flowOf()
         ),
         act = {},
         onDrawerIconClick = {}

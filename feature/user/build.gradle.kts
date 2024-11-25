@@ -41,7 +41,6 @@ android {
 dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:translations"))
-    implementation(project(":core:util"))
     implementation(project(":data:model:user"))
     implementation(project(":data:user"))
 
@@ -58,9 +57,10 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.coil.okhttp)
 
+    implementation(libs.androidx.compose.paging)
+    implementation(libs.androidx.compose.paging.runtime)
+
     implementation(project.dependencies.platform(libs.koin.bom))
-    implementation(libs.koin.core)
-    implementation(libs.koin.android)
     implementation(libs.koin.compose)
 
     testImplementation(libs.junit)

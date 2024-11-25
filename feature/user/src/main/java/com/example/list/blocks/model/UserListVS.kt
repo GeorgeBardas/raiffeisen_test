@@ -1,11 +1,9 @@
 package com.example.list.blocks.model
 
+import androidx.paging.PagingData
 import com.example.list.model.UserData
+import kotlinx.coroutines.flow.Flow
 
-data class UserListVS(
-    val isLoading: Boolean = false,
-    val userList: List<UserData> = emptyList(),
-    val errorType: ErrorType? = null,
+internal data class UserListVS(
+    val userListFlow: Flow<PagingData<UserData>>
 )
-
-enum class ErrorType { NO_INTERNET, GENERIC_ERROR }

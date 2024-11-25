@@ -40,6 +40,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
 
     implementation(project.dependencies.platform(libs.koin.bom))
+    implementation(libs.androidx.compose.paging)
+    implementation(libs.androidx.compose.paging.runtime)
     implementation(libs.koin.core)
 
     testImplementation(libs.junit)

@@ -34,6 +34,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:util"))
     implementation(project(":data:model:user"))
 
     implementation(libs.androidx.core.ktx)
@@ -45,6 +46,7 @@ dependencies {
 
     implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.koin.core)
+    implementation(libs.koin.android)
 
     testImplementation(libs.junit)
 

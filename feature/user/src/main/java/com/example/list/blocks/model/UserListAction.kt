@@ -1,7 +1,8 @@
 package com.example.list.blocks.model
 
-sealed interface UserListAction {
-    data object UserClick : UserListAction
+import com.example.list.model.UserData
+
+internal sealed interface UserListAction {
+    data class UserClick(val userdata: UserData) : UserListAction
     data object CreateClick : UserListAction
-    data object TryAgainClick : UserListAction
 }

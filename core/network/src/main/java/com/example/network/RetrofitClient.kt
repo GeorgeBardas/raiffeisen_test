@@ -1,6 +1,9 @@
 package com.example.network
 
+import android.app.Application
 import com.example.network.model.UserListResponse
+import com.example.util.isNetworkConnected
+import kotlinx.coroutines.delay
 import retrofit2.HttpException
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -19,7 +22,9 @@ internal interface UserClientApi {
     ): Response<UserListResponse>
 }
 
-internal class UserClientImpl : UserClient {
+internal class UserClientImpl(
+    val application: Application
+) : UserClient {
 
     private val BASE_URL = "https://randomuser.me/"
 
@@ -29,8 +34,12 @@ internal class UserClientImpl : UserClient {
         .build()
         .create(UserClientApi::class.java)
 
-    override suspend fun getUsers(): NetworkResult<UserListResponse> = handleApi {
-        retrofitNetwork.getUsers()
+    override suspend fun getUsers(page: Int): NetworkResult<UserListResponse> {
+        return if (application.isNetworkConnected()) {
+            handleApi { retrofitNetwork.getUsers(page) }
+        } else {
+            NetworkResult.NoInternet()
+        }
     }
 }
 
@@ -38,6 +47,7 @@ sealed class NetworkResult<T : Any> {
     data class Success<T : Any>(val data: T) : NetworkResult<T>()
     data class Error<T : Any>(val code: Int, val message: String?) : NetworkResult<T>()
     data class Exception<T : Any>(val e: Throwable) : NetworkResult<T>()
+    class NoInternet<T : Any> : NetworkResult<T>()
 }
 
 suspend fun <T : Any> handleApi(execute: suspend () -> Response<T>): NetworkResult<T> = try {

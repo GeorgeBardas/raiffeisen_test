@@ -3,5 +3,5 @@ package com.example.network
 import com.example.network.model.UserListResponse
 
 interface UserClient {
-    suspend fun getUsers(): NetworkResult<UserListResponse>
+    suspend fun getUsers(page: Int): NetworkResult<UserListResponse>
 }

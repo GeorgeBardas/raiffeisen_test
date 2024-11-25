@@ -14,11 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MailOutline
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.outlined.Star
-import androidx.compose.material.icons.sharp.Share
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,12 +34,15 @@ import com.example.list.model.UserData
 import com.example.userlist.R
 
 @Composable
-internal fun UserListItem(data: UserData) {
+internal fun UserListItem(
+    data: UserData,
+    onUserClick: () -> Unit,
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .background(color = MaterialTheme.colorScheme.surface)
-            .clickable { },
+            .clickable { onUserClick.invoke() },
     ) {
         Row(
             modifier = Modifier
@@ -54,43 +52,53 @@ internal fun UserListItem(data: UserData) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.Top
             ) {
                 UserPicture(data)
                 Spacer(modifier = Modifier.width(12.dp))
-                Column {
-                    Text(
-                        text = data.name,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                    Text(
-                        text = data.description,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
+                UserNameWithDescription(data)
             }
-            Row {
-                Image(
-                    modifier = Modifier.height(16.dp),
-                    painter = painterResource(R.drawable.ic_attachment),
-                    contentDescription = null
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Column(
-                    horizontalAlignment = Alignment.End
-                ) {
-                    Text(
-                        text = "15:28",
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Image(
-                        painter = painterResource(R.drawable.ic_star_outline),
-                        contentDescription = null
-                    )
-                }
-            }
+            UserInfo(data)
         }
+    }
+}
+
+@Composable
+private fun UserInfo(userData: UserData) {
+    Row {
+        Image(
+            modifier = Modifier.height(18.dp),
+            painter = painterResource(R.drawable.ic_attachment),
+            contentDescription = null
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Column(
+            horizontalAlignment = Alignment.End
+        ) {
+            Text(
+                text = userData.timeOfBirth,
+                style = MaterialTheme.typography.bodySmall
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Image(
+                painter = painterResource(R.drawable.ic_star_outline),
+                contentDescription = null
+            )
+        }
+    }
+}
+
+@Composable
+private fun UserNameWithDescription(data: UserData) {
+    Column {
+        Text(
+            text = data.name,
+            style = MaterialTheme.typography.bodyLarge
+        )
+        Text(
+            text = data.description.invoke(),
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }
 
@@ -98,8 +106,8 @@ internal fun UserListItem(data: UserData) {
 private fun UserPicture(userData: UserData) {
     Box(
         modifier = Modifier
-            .size(32.dp)
-            .clip(MaterialTheme.shapes.large)
+            .size(48.dp)
+            .clip(MaterialTheme.shapes.extraLarge)
     ) {
         Box(
             modifier = Modifier
@@ -113,7 +121,7 @@ private fun UserPicture(userData: UserData) {
             )
         }
         AsyncImage(
-            modifier = Modifier.size(24.dp),
+            modifier = Modifier.fillMaxSize(),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(userData.thumbnailUrl)
                 .crossfade(true)
@@ -128,6 +136,7 @@ private fun UserPicture(userData: UserData) {
 @Composable
 private fun UserListItemPreview() = RaiffeisenTestTheme {
     UserListItem(
-        data = UserListScreenPreviewData.data.first()
+        data = UserListScreenPreviewData.data.first(),
+        onUserClick = {}
     )
 }
