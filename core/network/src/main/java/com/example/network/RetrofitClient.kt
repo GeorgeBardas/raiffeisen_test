@@ -3,7 +3,6 @@ package com.example.network
 import android.app.Application
 import com.example.network.model.UserListResponse
 import com.example.util.isNetworkConnected
-import kotlinx.coroutines.delay
 import retrofit2.HttpException
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -23,7 +22,7 @@ internal interface UserClientApi {
 }
 
 internal class UserClientImpl(
-    val application: Application
+    private val application: Application
 ) : UserClient {
 
     private val BASE_URL = "https://randomuser.me/"

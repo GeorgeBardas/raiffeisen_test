@@ -77,7 +77,9 @@ private fun UserInfo(userData: UserData) {
         ) {
             Text(
                 text = userData.timeOfBirth,
-                style = MaterialTheme.typography.bodySmall
+                style = MaterialTheme.typography.bodySmall.copy(
+                    color = MaterialTheme.colorScheme.onSurface
+                )
             )
             Spacer(modifier = Modifier.height(16.dp))
             Image(
@@ -93,11 +95,15 @@ private fun UserNameWithDescription(data: UserData) {
     Column {
         Text(
             text = data.name,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge.copy(
+                color = MaterialTheme.colorScheme.onSurface
+            )
         )
         Text(
             text = data.description.invoke(),
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium.copy(
+                color = MaterialTheme.colorScheme.onSurface
+            ),
         )
     }
 }
@@ -112,7 +118,7 @@ private fun UserPicture(userData: UserData) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = MaterialTheme.colorScheme.secondary),
+                .background(color = MaterialTheme.colorScheme.tertiary),
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -134,7 +140,7 @@ private fun UserPicture(userData: UserData) {
 
 @PreviewLightDark
 @Composable
-private fun UserListItemPreview() = RaiffeisenTestTheme {
+internal fun UserListItemPreview() = RaiffeisenTestTheme {
     UserListItem(
         data = UserListScreenPreviewData.data.first(),
         onUserClick = {}

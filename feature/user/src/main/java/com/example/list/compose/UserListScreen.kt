@@ -24,6 +24,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
+import androidx.paging.LoadStates
+import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.data.repository.NoInternetException
 import com.example.designsystem.components.AppBar
@@ -64,7 +66,13 @@ private fun Screen(
                 onNavigationIconClick = onDrawerIconClick,
                 actions = {
                     IconButton(
-                        content = { Icon(imageVector = Icons.Filled.Search, contentDescription = null) },
+                        content = {
+                            Icon(
+                                imageVector = Icons.Filled.Search,
+                                tint = MaterialTheme.colorScheme.onSurface,
+                                contentDescription = null,
+                            )
+                        },
                         onClick = { },
                     )
                 }
@@ -104,7 +112,6 @@ private fun Content(
                     data = userData,
                     onUserClick = { act(UserListAction.UserClick(userData)) }
                 )
-                if (index < lazyPagingItems.itemCount - 1) ItemDivider()
             }
         }
         when (val loadState = lazyPagingItems.loadState.refresh) {
@@ -143,22 +150,126 @@ private fun Content(
     }
 }
 
+@PreviewLightDark
 @Composable
-private fun ItemDivider() = Box(
-    modifier = Modifier
-        .fillMaxWidth()
-        .height(1.dp)
-        .background(
-            color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f),
-        )
-)
+internal fun UserListScreenPreview() = RaiffeisenTestTheme {
+    Screen(
+        viewState = UserListVS(
+            userListFlow = flowOf(
+                PagingData.from(
+                    data = UserListScreenPreviewData.data,
+                    sourceLoadStates = LoadStates(
+                        refresh = LoadState.NotLoading(false),
+                        append = LoadState.NotLoading(false),
+                        prepend = LoadState.NotLoading(false),
+                    )
+                )
+            )
+        ),
+        act = {},
+        onDrawerIconClick = {}
+    )
+}
 
 @PreviewLightDark
 @Composable
-private fun UserListScreenPreview() = RaiffeisenTestTheme {
+internal fun UserListScreenInitialLoadingPreview() = RaiffeisenTestTheme {
     Screen(
         viewState = UserListVS(
-            userListFlow = flowOf()
+            userListFlow = flowOf(
+                PagingData.from(
+                    data = listOf(),
+                    sourceLoadStates = LoadStates(
+                        refresh = LoadState.Loading,
+                        append = LoadState.NotLoading(false),
+                        prepend = LoadState.NotLoading(false),
+                    )
+                )
+            )
+        ),
+        act = {},
+        onDrawerIconClick = {}
+    )
+}
+
+@PreviewLightDark
+@Composable
+internal fun UserListScreenAppendLoadingPreview() = RaiffeisenTestTheme {
+    Screen(
+        viewState = UserListVS(
+            userListFlow = flowOf(
+                PagingData.from(
+                    data = UserListScreenPreviewData.data,
+                    sourceLoadStates = LoadStates(
+                        refresh = LoadState.NotLoading(false),
+                        append = LoadState.Loading,
+                        prepend = LoadState.NotLoading(false),
+                    )
+                )
+            )
+        ),
+        act = {},
+        onDrawerIconClick = {}
+    )
+}
+
+@PreviewLightDark
+@Composable
+internal fun UserListScreenAppendErrorPreview() = RaiffeisenTestTheme {
+    Screen(
+        viewState = UserListVS(
+            userListFlow = flowOf(
+                PagingData.from(
+                    data = UserListScreenPreviewData.data,
+                    sourceLoadStates = LoadStates(
+                        refresh = LoadState.NotLoading(false),
+                        append = LoadState.Error(Throwable()),
+                        prepend = LoadState.NotLoading(false),
+                    )
+                )
+            )
+        ),
+        act = {},
+        onDrawerIconClick = {}
+    )
+}
+
+@PreviewLightDark
+@Composable
+internal fun UserListScreenErrorPreview() = RaiffeisenTestTheme {
+    Screen(
+        viewState = UserListVS(
+            userListFlow = flowOf(
+                PagingData.from(
+                    data = listOf(),
+                    sourceLoadStates = LoadStates(
+                        refresh = LoadState.Error(Throwable()),
+                        append = LoadState.NotLoading(false),
+                        prepend = LoadState.NotLoading(false),
+                    )
+                )
+            )
+        ),
+        act = {},
+        onDrawerIconClick = {}
+    )
+}
+
+@PreviewLightDark
+@Composable
+internal fun UserListScreenNoInternetPreview() = RaiffeisenTestTheme {
+    Screen(
+        viewState = UserListVS(
+            userListFlow = flowOf(
+                PagingData.from(
+                    data = listOf(),
+                    sourceLoadStates = LoadStates(
+                        refresh = LoadState.Error(NoInternetException),
+                        append = LoadState.NotLoading(false),
+                        prepend = LoadState.NotLoading(false),
+                    )
+                )
+            )
         ),
         act = {},
         onDrawerIconClick = {}
