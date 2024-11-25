@@ -40,6 +40,7 @@ android {
 
 dependencies {
     implementation(project(":core:designsystem"))
+    implementation(project(":core:translations"))
     implementation(project(":core:util"))
     implementation(project(":data:model:user"))
     implementation(project(":data:user"))

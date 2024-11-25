@@ -28,7 +28,7 @@ import com.example.list.blocks.UserListVM
 import com.example.list.blocks.model.ErrorType
 import com.example.list.blocks.model.UserListAction
 import com.example.list.blocks.model.UserListVS
-import com.example.userlist.R
+import com.example.translations.R
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
