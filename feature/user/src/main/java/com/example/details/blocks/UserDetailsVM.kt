@@ -1,4 +1,4 @@
-package com.example.list.blocks
+package com.example.details.blocks
 
 import android.app.Application
 import androidx.compose.runtime.getValue
@@ -10,6 +10,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.data.repository.UserRepository
+import com.example.details.blocks.model.UserDetailsAction
 import com.example.list.blocks.model.UserListAction
 import com.example.list.blocks.model.UserListVS
 import com.example.list.mapper.UserDataMapper
@@ -20,30 +21,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-internal class UserListVM(
-    private val mapper: UserDataMapper,
+internal class UserDetailsVM(
     private val navigationDispatcher: NavigationDispatcher,
-    private val userRepository: UserRepository,
 ) : ViewModel() {
 
-    var viewState by mutableStateOf(
-        UserListVS(
-            userListFlow = userListFlow()
-        )
-    )
-        private set
-
-    private fun userListFlow(): Flow<PagingData<UserData>> = userRepository
-        .getUsers()
-        .map { pagingData -> pagingData.map { mapper.map(it) } }
-        .cachedIn(viewModelScope)
-
-    fun onAction(action: UserListAction) {
+    fun onAction(action: UserDetailsAction) {
         when (action) {
-            UserListAction.CreateClick -> {}
-            is UserListAction.UserClick -> {
+            UserDetailsAction.BackArrowClick -> {
                 viewModelScope.launch {
-                    navigationDispatcher.navigateTo(NavRoutes.USER_DETAILS)
+                    navigationDispatcher.navigateBack()
                 }
             }
         }

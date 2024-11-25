@@ -40,6 +40,7 @@ android {
 
 dependencies {
     implementation(project(":core:designsystem"))
+    implementation(project(":core:navigation"))
     implementation(project(":core:translations"))
     implementation(project(":feature:user"))
 

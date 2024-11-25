@@ -101,7 +101,7 @@ private fun UserNameWithDescription(data: UserData) {
         )
         Text(
             text = data.description.invoke(),
-            style = MaterialTheme.typography.bodyMedium.copy(
+            style = MaterialTheme.typography.bodySmall.copy(
                 color = MaterialTheme.colorScheme.onSurface
             ),
         )

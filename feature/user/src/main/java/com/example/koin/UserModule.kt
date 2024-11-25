@@ -1,5 +1,6 @@
 package com.example.koin
 
+import com.example.details.blocks.UserDetailsVM
 import com.example.list.blocks.UserListVM
 import com.example.list.mapper.UserDataMapper
 import org.koin.android.ext.koin.androidApplication
@@ -11,7 +12,14 @@ val userModule = module {
     viewModel {
         UserListVM(
             mapper = get(),
+            navigationDispatcher = get(),
             userRepository = get(),
+        )
+    }
+
+    viewModel {
+        UserDetailsVM(
+            navigationDispatcher = get(),
         )
     }
 }

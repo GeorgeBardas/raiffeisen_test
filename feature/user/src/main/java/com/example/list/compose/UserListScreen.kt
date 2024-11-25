@@ -1,10 +1,8 @@
 package com.example.list.compose
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -29,6 +27,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.data.repository.NoInternetException
 import com.example.designsystem.components.AppBar
+import com.example.designsystem.components.AppBarNavigationType
 import com.example.designsystem.components.ErrorMessage
 import com.example.designsystem.components.LoadingIndicator
 import com.example.designsystem.theme.RaiffeisenTestTheme
@@ -62,6 +61,7 @@ private fun Screen(
     Scaffold(
         topBar = {
             AppBar(
+                navigationType = AppBarNavigationType.DRAWER,
                 title = stringResource(R.string.user_list_screen_title),
                 onNavigationIconClick = onDrawerIconClick,
                 actions = {

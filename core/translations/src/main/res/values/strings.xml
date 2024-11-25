@@ -2,4 +2,6 @@
 <resources>
     <string name="user_list_screen_title">Users</string>
     <string name="user_list_item_description">%1$s years from %2$s</string>
+
+    <string name="user_details_screen_title">User details</string>
 </resources>
